@@ -150,7 +150,11 @@ public final class BridgeDelegate: BridgingDelegate {
     }
     
     private var activeComponents: [BridgeComponent] {
-        return initializedComponents.values.filter { _ in destinationIsActive }
+        guard destinationIsActive else {
+            return []
+        }
+
+        return Array(initializedComponents.values)
     }
     
     private func getOrCreateComponent(name: String) -> BridgeComponent? {
