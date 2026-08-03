@@ -183,6 +183,14 @@ extension Navigator: SessionDelegate {
             // controller is orphaned on the stack it was pushed onto.
             let sessionIsModal = session === modalSession
             let proposalIsModal = proposal.context == .modal
+
+            if sessionIsModal && !proposalIsModal {
+                hierarchyController.dismissModal(animated: true) { [weak self] in
+                    self?.route(proposal)
+                }
+                return
+            }
+
             if sessionIsModal != proposalIsModal {
                 // Animate the pop only when receding from the active modal session
                 // to the default context, matching the back-style transition.
